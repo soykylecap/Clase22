@@ -1,8 +1,16 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from AppKyle.forms import ArticulosFormAlta, ArticulosFormBusca, ClientesFormAlta, ClientesFormBusca, GastosFormAlta, GastosFormBusca
-from AppKyle.models import Articulos, Clientes, Gastos
 from datetime import datetime
+
+
+#Para vistas basadas en clases:
+from django.views.generic import ListView
+from django.views.generic.detail import DetailView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
+from AppKyle.models import Articulos, Clientes, Gastos
+
 
 # Create your views here.
 def inicio(request):
@@ -122,3 +130,31 @@ def buscarGastos(request):
         miFormulario = GastosFormBusca()
     return render(request, "AppKyle/gastos_buscar.html", {"miFormulario": miFormulario})
 
+
+#Vistas basadas en clases:
+
+class GastosListView(ListView):
+    model = Gastos
+    context_object_name = "gastos_viene_de_view"
+    template_name = "AppKyle/gastos_lista.html"
+
+class GastosDetailView(DetailView):
+    model = Gastos
+    template_name = "AppKyle/gastos_detalle.html"
+
+class GastosCreateView(CreateView):
+    model = Gastos
+    template_name = "AppKyle/gastos_crear.html"
+    success_url = reverse_lazy('ListaGastos')
+    fields = ['fecha', 'detalle', 'area', 'importe']
+
+class GastosUpdateView(UpdateView):
+    model = Gastos
+    template_name = "AppKyle/gastos_modificar.html"
+    success_url = reverse_lazy('ListaGastos')
+    fields = ['fecha', 'detalle', 'area', 'importe']
+
+class GastosDeleteView(DeleteView):
+    model = Gastos
+    template_name = "AppKyle/gastos_borrar.html"
+    succes_url = reverse_lazy('ListaGastos')

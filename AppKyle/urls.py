@@ -18,3 +18,11 @@ urlpatterns += [
     path('gastos/gastos_buscar/', views.buscarGastos, name='BuscarGastos'),
     
 ]
+
+urlpatterns += [
+    path('gastos/lista/', views.GastosListView.as_view(), name='ListaGastos'),
+    path('gastos/nuevo/', views.GastosCreateView.as_view(), name='CrearGastos'),
+    path('gastos/<pk>/', views.GastosDetailView.as_view(), name='DetalleGastos'),
+    path('gastos/<pk>/editar/', views.GastosUpdateView.as_view(), name='EditarGastos'),
+    path('gastos/<pk>/borrar/', views.GastosDeleteView.as_view(), name='BorrarGastos'),
+]
